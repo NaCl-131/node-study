@@ -8,3 +8,4 @@ const koaBody = require("koa-body");
 app.use(koaBody())
 app.use(router.routes())
 // const db = require('./utils/db');
+const db=require('../src/sequelize/model/user')
