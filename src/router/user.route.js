@@ -2,7 +2,7 @@ const Router = require('koa-router')
 const {
     register,
     login
-} = require('../controller/user.controller')
+} = require('../sequelize/controller/user.controller')
 const router = new Router();
 // const router = new Router({ prefix: '/users' })
 // 注册接口
