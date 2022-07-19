@@ -36,7 +36,8 @@ class UserService {
     })
     const token = await getToken({
       user_name,
-      password
+      password,
+      is_admin: user[0].is_admin
     })
     console.log('%c [ token ]-37', 'font-size:13px; background:pink; color:#bf2c9f;', token)
     return {
@@ -46,10 +47,15 @@ class UserService {
       token: token
     }
   }
+  //验证用户token
+  async tokenVerify(token) {
+    return jwt.verify(token, TOKEN_SECRET);
+  }
 }
 let getToken = async (body) => {
+
   const token = jwt.sign(body, TOKEN_SECRET);
-  let verifyData = jwt.verify(token, TOKEN_SECRET);
+  // let verifyData = jwt.verify(token, TOKEN_SECRET);
   return token;
 }
 module.exports = new UserService()
