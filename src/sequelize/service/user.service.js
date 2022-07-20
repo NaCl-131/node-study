@@ -6,9 +6,7 @@ const {
 class UserService {
   // 插入用户数据
   async createUser(user_name, password) {
-    // 插入数据
     const res = await User.create({
-      // 表的字段
       user_name: user_name,
       password: password
     })
@@ -49,7 +47,20 @@ class UserService {
   }
   //验证用户token
   async tokenVerify(token) {
-    return jwt.verify(token, TOKEN_SECRET);
+    try {
+      return jwt.verify(token, TOKEN_SECRET);
+    } catch (error) {
+      return {}
+    }
+  }
+  // 删除用户
+  async userDeleteService(user_name) {
+    await User.destroy({
+      where: {
+        user_name: user_name
+      }
+    })
+    return true
   }
 }
 let getToken = async (body) => {
