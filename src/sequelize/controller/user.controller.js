@@ -2,7 +2,8 @@
 const {
   createUser,
   UserExistJudge,
-  UserPasswordJudge
+  UserPasswordJudge,
+  UserPasswordJudgeForCookie
 } = require('../service/user.service')
 class UserController {
   async register(ctx, next) {
@@ -11,7 +12,7 @@ class UserController {
     const {
       user_name,
       password
-    } = JSON.parse(ctx.request.body)
+    } = (ctx.request.body)
 
     // 2. 操作数据库
     const isUserExist = await UserExistJudge(user_name)
@@ -44,15 +45,18 @@ class UserController {
 
     if (isUserExist) {
       //登录成功
-      let UserInfo = await UserPasswordJudge(user_name, password);
+      let UserInfo = await UserPasswordJudgeForCookie(user_name, password);
+      ctx.session.user_name = "name";
+      // console.log("here", ctx.session.user_name);
       if (UserInfo.UserPasswordTrue) {
+        ctx.session.user_name = "name";
         ctx.body = {
           code: 0,
           message: '登录成功！',
           result: {
             id: UserInfo.id,
             user_name: UserInfo.user_name,
-            token: UserInfo.token
+            // token: UserInfo.token
           },
         }
       } else {

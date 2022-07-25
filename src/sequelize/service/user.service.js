@@ -1,5 +1,7 @@
 const User = require('../model/user');
 const jwt = require('jsonwebtoken');
+const session = require('koa-session');
+
 const {
   TOKEN_SECRET
 } = require('../../config/config.default')
@@ -43,6 +45,27 @@ class UserService {
       user_name: user[0].user_name,
       id: user[0].id,
       token: token
+    }
+  }
+  // 使用cookie登录
+  async UserPasswordJudgeForCookie(user_name, password) {
+    const user = await User.findAll({
+      where: {
+        user_name
+      }
+    })
+
+    // const token = await getToken({
+    //   user_name,
+    //   password,
+    //   is_admin: user[0].is_admin
+    // })
+    // console.log('%c [ token ]-37', 'font-size:13px; background:pink; color:#bf2c9f;', token)
+    return {
+      UserPasswordTrue: user[0].password === password,
+      user_name: user[0].user_name,
+      id: user[0].id,
+      // token: token
     }
   }
   //验证用户token
