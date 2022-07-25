@@ -46,10 +46,10 @@ class UserController {
     if (isUserExist) {
       //登录成功
       let UserInfo = await UserPasswordJudgeForCookie(user_name, password);
-      ctx.session.user_name = "name";
+      // ctx.session.user_name = "name";
       // console.log("here", ctx.session.user_name);
       if (UserInfo.UserPasswordTrue) {
-        ctx.session.user_name = "name";
+        ctx.session.user_name = UserInfo.user_name;
         ctx.body = {
           code: 0,
           message: '登录成功！',
